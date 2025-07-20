@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Flipbook - StPageFlip</title>
+    <style>
+        body {
+            margin: 0;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #flipbook {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/stpageflip@2.0.6/dist/css/stpageflip.min.css">
+</head>
+<body>
+
+<div id="flipbook"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/stpageflip@2.0.6/dist/js/stpageflip.min.js"></script>
+<script>
+    const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
+        width: 300, // halaman per sisi
+        height: 400,
+        size: "fixed",
+        maxShadowOpacity: 0.5,
+        showCover: true,
+        mobileScrollSupport: false
+    });
+
+    pageFlip.loadFromImages([
+        "https://via.placeholder.com/600x400/FFB6C1/000000?text=Cover",
+        "https://via.placeholder.com/600x400/ADD8E6/000000?text=Page+1",
+        "https://via.placeholder.com/600x400/90EE90/000000?text=Page+2",
+        "https://via.placeholder.com/600x400/FFD700/000000?text=Back+Cover"
+    ]);
+</script>
+
+</body>
+</html>
