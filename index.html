@@ -2,16 +2,338 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flipbook Canvas</title>
-    <link rel="stylesheet" href="./dist/css/stpageflip.min.css">
-    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StPageFlip Demo</title>
+    <!-- Menggunakan script dari deployment Anda -->
+    <script src="./dist/js/page-flip.browser.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #book {
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .my-page {
+            background: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+        }
+
+        .cover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .back-cover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .content {
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        .content h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .content h3 {
+            color: #667eea;
+        }
+
+        .image-placeholder {
+            width: 200px;
+            height: 150px;
+            background: #e2e8f0;
+            border: 2px dashed #cbd5e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            color: #718096;
+        }
+    </style>
 </head>
 <body>
+    <h1>StPageFlip Demo</h1>
+    
+    <div class="controls">
+        <button id="prevBtn">← Previous</button>
+        <button id="nextBtn">Next →</button>
+        <button id="firstBtn">First Page</button>
+        <button id="lastBtn">Last Page</button>
+        <button id="flipNextBtn">Flip Next (Animation)</button>
+        <button id="flipPrevBtn">Flip Previous (Animation)</button>
+    </div>
 
-<div id="flipbook"></div>
+    <div class="status" id="status">
+        Ready to initialize...
+    </div>
 
-<script src="./dist/js/stpageflip.min.js"></script>
-<script src="./main.js"></script>
+    <div id="book">
+        <!-- Cover -->
+        <div class="my-page cover" data-density="hard">
+            <div class="content">
+                <h2>My Digital Book</h2>
+                <div class="image-placeholder">Cover Image</div>
+                <p>A demonstration of the StPageFlip library</p>
+                <p><strong>Author:</strong> Your Name</p>
+            </div>
+        </div>
 
+        <!-- Page 1 -->
+        <div class="my-page">
+            <div class="content">
+                <h3>Chapter 1: Introduction</h3>
+                <p>This is the first page of our digital book. The StPageFlip library provides a realistic page turning effect that works great on both desktop and mobile devices.</p>
+                <div class="image-placeholder">Image 1</div>
+                <p>You can include any HTML content on these pages including images, text, and even interactive elements.</p>
+            </div>
+            <div class="page-number">1</div>
+        </div>
+
+        <!-- Page 2 -->
+        <div class="my-page">
+            <div class="content">
+                <h3>Chapter 2: Features</h3>
+                <p>StPageFlip offers many great features:</p>
+                <ul style="text-align: left; max-width: 250px;">
+                    <li>Realistic page turning animations</li>
+                    <li>Mobile device support</li>
+                    <li>Portrait and landscape modes</li>
+                    <li>Soft and hard page types</li>
+                    <li>No dependencies</li>
+                </ul>
+                <div class="image-placeholder">Feature Diagram</div>
+            </div>
+            <div class="page-number">2</div>
+        </div>
+
+        <!-- Page 3 -->
+        <div class="my-page">
+            <div class="content">
+                <h3>Chapter 3: Usage</h3>
+                <p>Using StPageFlip is simple. Just create your HTML structure with pages, then initialize the library:</p>
+                <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 11px; text-align: left;">
+const pageFlip = new St.PageFlip(<br>
+&nbsp;&nbsp;document.getElementById('book'),<br>
+&nbsp;&nbsp;{ width: 400, height: 600 }<br>
+);
+                </div>
+                <p>Then load your pages and enjoy the smooth animations!</p>
+            </div>
+            <div class="page-number">3</div>
+        </div>
+
+        <!-- Page 4 -->
+        <div class="my-page">
+            <div class="content">
+                <h3>Chapter 4: Configuration</h3>
+                <p>You can customize many aspects of the book behavior:</p>
+                <div class="image-placeholder">Settings Panel</div>
+                <ul style="text-align: left; max-width: 280px; font-size: 14px;">
+                    <li><strong>width/height:</strong> Page dimensions</li>
+                    <li><strong>showCover:</strong> Single page mode for covers</li>
+                    <li><strong>flippingTime:</strong> Animation duration</li>
+                    <li><strong>drawShadow:</strong> Enable/disable shadows</li>
+                </ul>
+            </div>
+            <div class="page-number">4</div>
+        </div>
+
+        <!-- Page 5 -->
+        <div class="my-page">
+            <div class="content">
+                <h3>Chapter 5: Events</h3>
+                <p>The library provides several useful events:</p>
+                <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 11px; text-align: left;">
+pageFlip.on('flip', (e) => {<br>
+&nbsp;&nbsp;console.log('Page:', e.data);<br>
+});
+                </div>
+                <div class="image-placeholder">Event Flow</div>
+                <p>Events include: flip, changeOrientation, changeState, init, and update.</p>
+            </div>
+            <div class="page-number">5</div>
+        </div>
+
+        <!-- Page 6 -->
+        <div class="my-page">
+            <div class="content">
+                <h3>Chapter 6: Conclusion</h3>
+                <p>StPageFlip is a powerful and flexible library for creating beautiful digital books and magazines.</p>
+                <div class="image-placeholder">Success Story</div>
+                <p>Whether you're building an online magazine, digital catalog, or interactive storybook, StPageFlip provides the tools you need.</p>
+                <p><strong>Happy coding! 🚀</strong></p>
+            </div>
+            <div class="page-number">6</div>
+        </div>
+
+        <!-- Back Cover -->
+        <div class="my-page back-cover" data-density="hard">
+            <div class="content">
+                <h2>Thank You!</h2>
+                <div class="image-placeholder" style="border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7);">Back Cover</div>
+                <p>This concludes our StPageFlip demonstration.</p>
+                <p>Visit the official documentation for more advanced features and examples.</p>
+                <p><strong>© 2025 - Demo Book</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pageFlip;
+        
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        function updateButtons() {
+            const currentPage = pageFlip.getCurrentPageIndex();
+            const totalPages = pageFlip.getPageCount();
+            
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+            document.getElementById('nextBtn').disabled = currentPage >= totalPages - 1;
+            document.getElementById('flipPrevBtn').disabled = currentPage === 0;
+            document.getElementById('flipNextBtn').disabled = currentPage >= totalPages - 1;
+            
+            updateStatus(`Page ${currentPage + 1} of ${totalPages} | Orientation: ${pageFlip.getOrientation()}`);
+        }
+
+        // Initialize the page flip when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create PageFlip instance
+            pageFlip = new St.PageFlip(document.getElementById('book'), {
+                width: 400,
+                height: 600,
+                size: "fixed",
+                showCover: true,
+                drawShadow: true,
+                flippingTime: 1000,
+                usePortrait: true,
+                startZIndex: 0,
+                autoSize: true,
+                maxShadowOpacity: 1,
+                mobileScrollSupport: true
+            });
+
+            // Load pages from HTML
+            pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
+
+            // Event listeners
+            pageFlip.on('flip', (e) => {
+                updateButtons();
+                console.log('Page flipped to:', e.data);
+            });
+
+            pageFlip.on('changeOrientation', (e) => {
+                updateStatus(`Orientation changed to: ${e.data}`);
+                console.log('Orientation changed to:', e.data);
+            });
+
+            pageFlip.on('changeState', (e) => {
+                console.log('State changed to:', e.data);
+            });
+
+            pageFlip.on('init', (e) => {
+                updateButtons();
+                updateStatus(`Book initialized | Page: ${e.data.page + 1} | Mode: ${e.data.mode}`);
+                console.log('Book initialized:', e.data);
+            });
+
+            // Control buttons
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                pageFlip.turnToPrevPage();
+            });
+
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                pageFlip.turnToNextPage();
+            });
+
+            document.getElementById('firstBtn').addEventListener('click', () => {
+                pageFlip.turnToPage(0);
+            });
+
+            document.getElementById('lastBtn').addEventListener('click', () => {
+                pageFlip.turnToPage(pageFlip.getPageCount() - 1);
+            });
+
+            document.getElementById('flipNextBtn').addEventListener('click', () => {
+                pageFlip.flipNext('top');
+            });
+
+            document.getElementById('flipPrevBtn').addEventListener('click', () => {
+                pageFlip.flipPrev('top');
+            });
+        });
+    </script>
 </body>
 </html>
