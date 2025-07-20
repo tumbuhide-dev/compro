@@ -2,43 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Flipbook - StPageFlip</title>
+    <title>Tumbuh Ide Flipbook</title>
+    <link rel="stylesheet" href="dist/css/stpageflip.min.css">
     <style>
-        body {
+        html, body {
             margin: 0;
-            background: #f0f0f0;
+            padding: 0;
+            background: #222;
+            height: 100%;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
         #flipbook {
-            width: 600px;
-            height: 400px;
+            width: 800px;
+            height: 500px;
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/stpageflip@2.0.6/dist/css/stpageflip.min.css">
 </head>
 <body>
 
 <div id="flipbook"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/stpageflip@2.0.6/dist/js/stpageflip.min.js"></script>
+<script src="dist/js/stpageflip.min.js"></script>
 <script>
     const pageFlip = new St.PageFlip(document.getElementById("flipbook"), {
-        width: 300, // halaman per sisi
-        height: 400,
+        width: 400,
+        height: 500,
         size: "fixed",
-        maxShadowOpacity: 0.5,
         showCover: true,
+        maxShadowOpacity: 0.5,
         mobileScrollSupport: false
     });
 
     pageFlip.loadFromImages([
-        "https://via.placeholder.com/600x400/FFB6C1/000000?text=Cover",
-        "https://via.placeholder.com/600x400/ADD8E6/000000?text=Page+1",
-        "https://via.placeholder.com/600x400/90EE90/000000?text=Page+2",
-        "https://via.placeholder.com/600x400/FFD700/000000?text=Back+Cover"
+        "images/Compro TICCC_page-0001.jpg", // Cover
+        "images/Compro TICCC_page-0002.jpg", // Halaman 2
+        "images/Compro TICCC_page-0003.jpg", // Halaman 3
+        "images/Compro TICCC_page-0004.jpg",
+        "images/Compro TICCC_page-0005.jpg",
+        "images/Compro TICCC_page-0006.jpg",
+        "images/Compro TICCC_page-0007.jpg",
+        "images/Compro TICCC_page-0008.jpg",
+        "images/Compro TICCC_page-0009.jpg",
+        "images/Compro TICCC_page-0010.jpg",
+        "images/Compro TICCC_page-0011.jpg",
+        "images/Compro TICCC_page-0012.jpg",
+        "images/Compro TICCC_page-0013.jpg",
+        "images/Compro TICCC_page-0014.jpg",
+        "images/Compro TICCC_page-0015.jpg"  // Back Cover
     ]);
 </script>
 
