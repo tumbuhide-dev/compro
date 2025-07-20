@@ -4,8 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Profile - Interactive Flipbook</title>
-    <!-- StPageFlip dari CDN yang benar -->
-    <script src="./dist/js/page-flip.browser.js"></script>
+    <!-- Multiple CDN fallback untuk StPageFlip -->
+    <script>
+        // Load PageFlip library dengan fallback
+        function loadPageFlipLibrary() {
+            const cdnUrls = [
+                'https://compro-3r9.pages.dev/dist/js/page-flip.browser.js',
+                'https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js'
+            ];
+            
+            return new Promise((resolve, reject) => {
+                let currentIndex = 0;
+                
+                function tryLoadScript() {
+                    if (currentIndex >= cdnUrls.length) {
+                        reject(new Error('All CDN attempts failed'));
+                        return;
+                    }
+                    
+                    const script = document.createElement('script');
+                    script.src = cdnUrls[currentIndex];
+                    script.onload = () => {
+                        // Check if library is available
+                        if (typeof PageFlip !== 'undefined' || typeof St !== 'undefined') {
+                            resolve();
+                        } else {
+                            currentIndex++;
+                            tryLoadScript();
+                        }
+                    };
+                    script.onerror = () => {
+                        currentIndex++;
+                        tryLoadScript();
+                    };
+                    document.head.appendChild(script);
+                }
+                
+                tryLoadScript();
+            });
+        }
+        
+        // Start loading immediately
+        window.pageFlipLibraryPromise = loadPageFlipLibrary();
+    </script>
     <style>
         * {
             margin: 0;
@@ -247,21 +288,21 @@
         
         // Company profile images array - menggunakan URL lengkap
         const images = [
-            "./images/compro_0001.jpg",
-            "./images/compro_0002.jpg",
-            "./images/compro_0003.jpg",
-            "./images/compro_0004.jpg",
-            "./images/compro_0005.jpg",
-            "./images/compro_0006.jpg",
-            "./images/compro_0007.jpg",
-            "./images/compro_0008.jpg",
-            "./images/compro_0009.jpg",
-            "./images/compro_0010.jpg",
-            "./images/compro_0011.jpg",
-            "./images/compro_0012.jpg",
-            "./images/compro_0013.jpg",
-            "./images/compro_0014.jpg",
-            "./images/compro_0015.jpg"
+            "https://compro-3r9.pages.dev/images/compro_0001.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0002.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0003.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0004.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0005.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0006.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0007.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0008.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0009.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0010.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0011.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0012.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0013.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0014.jpg",
+            "https://compro-3r9.pages.dev/images/compro_0015.jpg"
         ];
 
         // Update loading progress
@@ -385,6 +426,11 @@
         // Initialize the flipbook
         async function initializeFlipbook() {
             try {
+                updateLoadingProgress('Loading PageFlip library...');
+                
+                // Wait for library to load
+                await window.pageFlipLibraryPromise;
+                
                 updateLoadingProgress('Checking images...');
                 await preloadImages(images);
                 
@@ -392,12 +438,17 @@
                 
                 const dimensions = getFlipbookDimensions();
                 
-                // Create PageFlip instance dengan pengecekan library
-                if (typeof PageFlip === 'undefined') {
-                    throw new Error('PageFlip library failed to load');
+                // Create PageFlip instance dengan pengecekan library yang lebih lengkap
+                let FlipClass;
+                if (typeof St !== 'undefined' && St.PageFlip) {
+                    FlipClass = St.PageFlip;
+                } else if (typeof PageFlip !== 'undefined') {
+                    FlipClass = PageFlip;
+                } else {
+                    throw new Error('PageFlip library not available after loading');
                 }
                 
-                pageFlip = new PageFlip(document.getElementById('flipbook'), {
+                pageFlip = new FlipClass(document.getElementById('flipbook'), {
                     width: dimensions.width,
                     height: dimensions.height,
                     
